@@ -20,26 +20,25 @@ def dale(N, Ne, mu_E, si, se):
 
     return matriz
 
-for i in range(30):
-    #número de nós da rede
-    N = 1000
 
-    #loop para rodar todos os testes
-    for Ne in [100, 500, 800]:
-        for mu_E in [3, 5]:
-            for alpha in [0.1, 1, 10]:
-                #aplica a lei de dale na matriz
-                f = Ne / N
-                se = (1 / (f + (1 - f) * alpha**2))**(1/2)
-                si = alpha * se
+N = 1000
+#número de nós da rede
 
-                matriz = dale(N, Ne, mu_E, si, se)
+#loop para rodar todos os testes
+for Ne in [100, 500, 800]:
+    for mu_E in [3, 5]:
+        for alpha in [0.1, 1, 10]:
+            #aplica a lei de dale na matriz
+            f = Ne / N
+            se = (1 / (f + (1 - f) * alpha**2))**(1/2)
+            si = alpha * se
 
-                auto_val = np.linalg.eigvals(matriz)
+            matriz = dale(N, Ne, mu_E, si, se)
 
-                with open("dados_alpha{}_Ne{}_mu{}.txt".format(alpha, str(Ne), mu_E), "a") as arq:
-                    for data in auto_val:
-                        arq.write("{} {}\n".format(data.real, data.imag))
-    
-    print(i)
+            auto_val = np.linalg.eigvals(matriz)
+
+            with open("dados/dados_alpha{}_Ne{}_mu{}.txt".format(alpha, str(Ne), mu_E), "w") as arq:
+                for data in auto_val:
+                    arq.write("{} {}\n".format(data.real, data.imag))
+
 

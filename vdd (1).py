@@ -20,7 +20,7 @@ def grafico(contagem, aneis):
     ax = plt.subplot(111)
     
     # Plotando os dados
-    ax.plot(raios_externos, contagem, label=f"alpha={alpha} Ne={ne}")
+    ax.plot(raios_externos, contagem, label=f"alpha={alpha} Ne={ne} mu={mu}")
     
     # Definindo os rótulos dos eixos
     plt.xlabel("Raio")
@@ -36,7 +36,7 @@ def grafico(contagem, aneis):
     plt.tight_layout() 
     
     # Salvando o gráfico
-    plt.savefig(f'número de autovalores ao longo do raio')
+    plt.savefig(f'plots/número de autovalores ao longo do raio')
 
 
 def contador_pontos(x_coords, y_coords, aneis):
@@ -53,26 +53,28 @@ def contador_pontos(x_coords, y_coords, aneis):
     return contagem
 
 
-n = 100 
+n = 50
+
 aneis = aneis(n)
 
 for alpha in [0.1,1,10]:
-    for ne in [100,500,800]:
-        x = []
-        y = []
-        areas = []
+    for ne in [800]:
+        for mu in [3]:
+            x = []
+            y = []
+            areas = []
 
-        # Carregando os dados do arquivo
-        with open(f"dados_alpha{alpha}_Ne{ne}_mu5.txt", "r") as arq:
-            for line in arq:
-                parts = line.split()
-                x.append(float(parts[0]))
-                y.append(float(parts[1]))
+            # Carregando os dados do arquivo
+            with open(f"dados/dados_alpha{alpha}_Ne{ne}_mu{mu}.txt", "r") as arq:
+                for line in arq:
+                    parts = line.split()
+                    x.append(float(parts[0]))
+                    y.append(float(parts[1]))
 
-        # Contando os pontos
-        contagem = contador_pontos(x, y, aneis)
+            # Contando os pontos
+            contagem = contador_pontos(x, y, aneis)
 
-        # Gerando o gráfico
-        grafico(contagem, aneis)
+            # Gerando o gráfico
+            grafico(contagem, aneis)
 
 plt.show()
