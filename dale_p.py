@@ -20,7 +20,12 @@ def dale(N, Ne, mu_E, si, se, p):
 
     for j in range(Ne, N):
         if random() <= p:
-            matriz[:, j] = np.random.normal(mu_I, si, N)
+           matriz[:, j] = np.random.normal(mu_I, si, N)
+
+#    for i in range(N):
+#        for j in range(N):
+#            if random() >= p:
+#                matriz[i,j] = 0.0
 
     return matriz
 
@@ -28,25 +33,23 @@ def dale(N, Ne, mu_E, si, se, p):
 #número de nós da rede
 N = 1000
 
-#probabilidade p (0:1)
-p = 0.7
-
 for i in range(30):
     #loop para rodar todos os testes
-    for Ne in [100, 500, 800]:
-        for mu_E in [3, 5]:
-            for alpha in [0.1, 1, 10]:
-                #aplica a lei de dale na matriz
-                f = Ne / N
-                se = (1 / (f + (1 - f) * alpha**2))**(1/2)
-                si = alpha * se
+    for Ne in [500]:
+        for mu_E in [5]:
+            for alpha in [1]:
+                for p in [x/10 for x in range(1,11)]:
+                    #aplica a lei de dale na matriz
+                    f = Ne / N
+                    se = (1 / (f + (1 - f) * alpha**2))**(1/2)
+                    si = alpha * se
 
-                matriz = dale(N, Ne, mu_E, si, se, p)
+                    matriz = dale(N, Ne, mu_E, si, se, p)
 
-                auto_val = np.linalg.eigvals(matriz)
+                    auto_val = np.linalg.eigvals(matriz)
 
-                with open("dados/dados_alpha{}_Ne{}_mu{}.txt".format(alpha, str(Ne), mu_E), "a") as arq:
-                    for data in auto_val:
-                        arq.write("{} {}\n".format(data.real, data.imag))
-    
-    print(i)
+                    with open(f"dados/dados_p{p}_alpha{alpha}_Ne{Ne}_mu{mu_E}.txt", "a") as arq:
+                        for data in auto_val:
+                            arq.write("{} {}\n".format(data.real, data.imag))
+
+    print(i)    

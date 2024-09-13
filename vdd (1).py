@@ -36,7 +36,7 @@ def grafico(contagem, aneis):
     plt.tight_layout() 
     
     # Salvando o gráfico
-    plt.savefig(f'plots/número de autovalores ao longo do raio')
+    plt.savefig(f'plots/Variação ne alpha = ')
 
 
 def contador_pontos(x_coords, y_coords, aneis):
@@ -53,28 +53,30 @@ def contador_pontos(x_coords, y_coords, aneis):
     return contagem
 
 
-n = 50
+n = 100
 
 aneis = aneis(n)
 
-for alpha in [0.1,1,10]:
-    for ne in [800]:
-        for mu in [3]:
-            x = []
-            y = []
-            areas = []
+for alpha in [1]:
+    for ne in [500]:
+        for mu in [x for x in range(10)]:
+            for p in [0.5]:
+                x = []
+                y = []
+                areas = []
 
-            # Carregando os dados do arquivo
-            with open(f"dados/dados_alpha{alpha}_Ne{ne}_mu{mu}.txt", "r") as arq:
-                for line in arq:
-                    parts = line.split()
-                    x.append(float(parts[0]))
-                    y.append(float(parts[1]))
+                # Carregando os dados do arquivo
+                with open(f"dados/dados_p{p}_alpha{alpha}_Ne{ne}_mu{mu}.txt", "r") as arq:
+                    for line in arq:
+                        parts = line.split()
+                        if float(parts[0])!= 0.0 and float(parts[1]) != 0.0:
+                            x.append(float(parts[0]!= 0))
+                            y.append(float(parts[1]))
 
-            # Contando os pontos
-            contagem = contador_pontos(x, y, aneis)
+                # Contando os pontos
+                contagem = contador_pontos(x, y, aneis)
 
-            # Gerando o gráfico
-            grafico(contagem, aneis)
+                # Gerando o gráfico
+                grafico(contagem, aneis)
 
 plt.show()

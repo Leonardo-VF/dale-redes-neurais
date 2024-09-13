@@ -3,13 +3,13 @@ import numpy as np
 import os
 
 
-for ne in [100, 500, 800]:
-    for mu in [3,5]:
-        for alpha in [0.1, 1, 10]:
+for ne in [500]:
+    for mu in [x for x in range(10)]:
+        for alpha in [1]:
             x = []
             y = []
 
-            with (open("dados/dados_alpha{}_Ne{}_mu{}.txt".format(alpha,ne,mu))) as arq:
+            with (open("dados/dados_p0.5_alpha{}_Ne{}_mu{}.txt".format(alpha,ne,mu))) as arq:
                 for line in arq:
                     parts = line.split()
                     x.append(float(parts[0]))
