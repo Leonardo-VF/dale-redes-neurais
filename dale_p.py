@@ -13,19 +13,16 @@ def dale(N, Ne, mu_E, si, se, p):
     matriz = np.zeros((N,N))
 
     #sortear valores da distribuição gaussiana
-    
     for j in range(Ne):
-        if random() <= p:
-            matriz[:, j] = np.random.normal(mu_E, se, N)
+        matriz[:, j] = np.random.normal(mu_E, se, N)
 
     for j in range(Ne, N):
-        if random() <= p:
-           matriz[:, j] = np.random.normal(mu_I, si, N)
+        matriz[:, j] = np.random.normal(mu_I, si, N)
 
-#    for i in range(N):
-#        for j in range(N):
-#            if random() >= p:
-#                matriz[i,j] = 0.0
+    for i in range(N):
+        for j in range(N):
+            if random() >= p:
+                matriz[i,j] = 0.0
 
     return matriz
 
@@ -33,11 +30,11 @@ def dale(N, Ne, mu_E, si, se, p):
 #número de nós da rede
 N = 1000
 
+#loop para rodar todos os testes
 for i in range(30):
-    #loop para rodar todos os testes
-    for Ne in [500]:
-        for mu_E in [5]:
-            for alpha in [1]:
+    for mu_E in [x for x in range(1,6)]:
+        for Ne in [800]:
+            for alpha in [10]:
                 for p in [x/10 for x in range(1,11)]:
                     #aplica a lei de dale na matriz
                     f = Ne / N
@@ -52,4 +49,4 @@ for i in range(30):
                         for data in auto_val:
                             arq.write("{} {}\n".format(data.real, data.imag))
 
-    print(i)    
+    print(f"{i}/30")

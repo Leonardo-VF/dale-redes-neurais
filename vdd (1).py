@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 
 def aneis(n):
-    raios_quad = np.linspace(0, 1, n + 1)
+    raios_quad = np.linspace(0, 5, n + 1)
     aneis = []
 
     for i in range(1, len(raios_quad)):
@@ -27,7 +27,7 @@ def grafico(contagem, aneis):
     plt.ylabel("Número de Pontos")
     
     # Definindo a gradação do eixo X de 0.05 em 0.05
-    plt.xticks(np.arange(0, 1.05, 0.05))  # De 0 até 1, com passos de 0.05
+    plt.xticks(np.arange(0, 5.05, 0.1))  # De 0 até 1, com passos de 0.05
     
     # Outras personalizações
     ax.set_facecolor('gainsboro')
@@ -53,14 +53,14 @@ def contador_pontos(x_coords, y_coords, aneis):
     return contagem
 
 
-n = 100
+n = 10
 
 aneis = aneis(n)
 
 for alpha in [1]:
     for ne in [500]:
-        for mu in [x for x in range(10)]:
-            for p in [0.5]:
+        for mu in [5]:
+            for p in [x/10 for x in range(1,11)]:
                 x = []
                 y = []
                 areas = []
@@ -69,9 +69,8 @@ for alpha in [1]:
                 with open(f"dados/dados_p{p}_alpha{alpha}_Ne{ne}_mu{mu}.txt", "r") as arq:
                     for line in arq:
                         parts = line.split()
-                        if float(parts[0])!= 0.0 and float(parts[1]) != 0.0:
-                            x.append(float(parts[0]!= 0))
-                            y.append(float(parts[1]))
+                        x.append(float(parts[0]))
+                        y.append(float(parts[1]))
 
                 # Contando os pontos
                 contagem = contador_pontos(x, y, aneis)
