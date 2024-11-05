@@ -13,8 +13,8 @@ def grafico_justos(data):
     ax.plot(keys, values, label=f" p = {p} mu={mu}")
     plt.xlabel("Raio do plano complexo")
     plt.ylabel('Densidade de probabilidade $(\\frac{pontos_{local}}{pontos_{totais}*raio})$')
-    plt.xticks(np.arange(0, 5.6, 0.4))
-    plt.xlim(0, 5.6)
+    plt.xticks(np.arange(0, 2, 0.2))
+    plt.xlim(0, 2)
     ax.set_facecolor('gainsboro')
     plt.title(f"Densidade de probabilidade ao longo do raio \n alpha = {alpha} ne = {ne} \n (autovalores 0.0 descartados para facilitar a vizualização)")
     plt.tight_layout() 
@@ -62,9 +62,9 @@ def segmentation(lista, passo):
 
 
 for alpha in [0.1]:
-    for ne in [800]:
-        for mu in [5]:
-            for p in [x/10 for x in range(1,10)]:
+    for ne in [300]:
+        for mu in [3,5]:
+            for p in [5]:
                 x = []
                 y = []
                 radius = []
@@ -80,7 +80,7 @@ for alpha in [0.1]:
                 for i in range(len(x)):
                     radius.append((x[i]**2 + y[i]**2)**0.5)
 
-                data = segmentation(radius, 0.2)
+                data = segmentation(radius, 0.01)
 
                 #graficos(data)
                 grafico_justos(data)
