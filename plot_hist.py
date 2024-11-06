@@ -41,7 +41,7 @@ def graficos(data):
 
 def segmentation(lista, passo):
     #segmenta o raio do plano complexo para fazer a contagem de potnos
-    intervalos = np.arange(0, max(lista)+1, passo)
+    intervalos = np.arange(0.05, max(lista)+1, passo)
     contagem = {'{:.2f}'.format(intervalos[i+1]): 0 for i in range(len(intervalos)-1)}
 
     # Contar os pontos em cada intervalo  
@@ -49,22 +49,22 @@ def segmentation(lista, passo):
         for i in range(len(intervalos)-1):
             if intervalos[i] <= num < intervalos[i+1]:
                 contagem['{:.2f}'.format(intervalos[i+1])] += 1
-                break 
+                break
 
     total = sum(contagem.values())
-    
+    print(contagem)
+
     # Calcular a densidade de probabilidade dos pontos por área
     for i in contagem.keys():
-        contagem[i] = float(contagem[i])/(total*float(i))
-
+        contagem[i] = float(contagem[i])/total
     
     return contagem
 
 
-for alpha in [0.1]:
-    for ne in [300]:
-        for mu in [3,5]:
-            for p in [5]:
+for alpha in [10]:
+    for ne in [800]:
+        for mu in [5]:
+            for p in [2,4,6,8,10]:
                 x = []
                 y = []
                 radius = []
@@ -78,12 +78,12 @@ for alpha in [0.1]:
 
                 # Calcular as áreas correspondentes aos pontos
                 for i in range(len(x)):
-                    radius.append((x[i]**2 + y[i]**2)**0.5)
+                    if (x[i]**2 + y[i]**2)**0.5 != 0:
+                        radius.append((x[i]**2 + y[i]**2)**0.5)
 
-                data = segmentation(radius, 0.01)
+                data = segmentation(radius, 0.02)
 
                 #graficos(data)
                 grafico_justos(data)
 
-#para mostrar os histogrmas juntos
 plt.show()

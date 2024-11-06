@@ -3,10 +3,10 @@ import numpy as np
 import os
 
 
-for ne in [300, 500, 800]:
-    for mu in [3,5]:
-        for alpha in [0.1, 1, 10]:
-            for p in [5]:
+for ne in [800]:
+    for mu in [5]:
+        for alpha in [10]:
+            for p in [x for x in range(2,10,2)]:
                 x = []
                 y = []
 
@@ -32,10 +32,10 @@ for ne in [300, 500, 800]:
                 plt.axhline(0, color='black', linewidth=0.5)
                 plt.axvline(0, color='black', linewidth=0.5)
                 desktop_path = os.path.expanduser("~/Desktop")
-                file_path = os.path.join(desktop_path, "Ne{}_Mu{}".format(ne, mu))
+                file_path = os.path.join(desktop_path, "p{}_Ne{}_Mu{}".format(p, ne, mu))
                 #plt.xlim(-1.5, 1.5)  # Ajusta os limites do eixo x
                 #plt.ylim(-1.5, 1.5)
-                plt.savefig(f'plots/plot_alpha{alpha}_Ne{ne}_mu{mu}.png')
+                plt.savefig(f'plots/plot_p{p}_alpha{alpha}_Ne{ne}_mu{mu}.png')
                 plt.show()
             
 
