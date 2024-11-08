@@ -60,15 +60,15 @@ def dale(matriz, Ne, mu_E, si, se, p):
 def main():
     #número de nós da rede
     N = 1000
-    for p in [x for x in range(1,10)]:
-        matriz = BA(N, p)
-        #matriz = ED(N)
 
-        #loop para rodar todos os testes
-        for i in range(30):
-            for mu_E in [5]:
-                for Ne in [800]:
-                    for alpha in [10]:
+    #loop para rodar todos os testes
+    for i in range(30):
+        for mu_E in [5]:
+            for Ne in [800]:
+                for alpha in [10]:
+                    for p in [x/10 for x in range(2,11,2)]:
+                        #matriz = BA(N, p)
+                        matriz = ED(N, p)
                     
                         #aplica a lei de dale na matriz
                         f = Ne / N

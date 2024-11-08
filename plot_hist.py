@@ -39,13 +39,13 @@ def graficos(data):
     plt.clf()
 
 
-def segmentation(lista, passo):
+def segmentation(matrix, passo):
     #segmenta o raio do plano complexo para fazer a contagem de potnos
-    intervalos = np.arange(0, max(lista)+1, passo)
+    intervalos = np.arange(min(matrix), max(matrix)+1, passo)
     contagem = {'{:.2f}'.format(intervalos[i+1]): 0 for i in range(len(intervalos)-1)}
 
     # Contar os pontos em cada intervalo  
-    for num in lista:
+    for num in matrix:
         for i in range(len(intervalos)-1):
             if intervalos[i] <= num < intervalos[i+1]:
                 contagem['{:.2f}'.format(intervalos[i+1])] += 1
@@ -61,16 +61,16 @@ def segmentation(lista, passo):
     return contagem
 
 
-for alpha in [0.1]:
-    for ne in [300]:
-        for mu in [3,5]:
-            for p in [5]:
+for alpha in [10]:
+    for ne in [800]:
+        for mu in [5]:
+            for p in [x for x in range(2,10,2)]:
                 x = []
                 y = []
                 radius = []
 
                 # Ler os dados do arquivo
-                with open("dados/dados_p{}_alpha{}_Ne{}_mu{}.txt".format(p, alpha, ne, mu), "r") as arq:
+                with open("barabasi/dados_p{}_alpha{}_Ne{}_mu{}.txt".format(p, alpha, ne, mu), "r") as arq:
                     for line in arq:
                         parts = line.split()
                         x.append(float(parts[0]))
@@ -78,12 +78,13 @@ for alpha in [0.1]:
 
                 # Calcular as áreas correspondentes aos pontos
                 for i in range(len(x)):
-                    radius.append((x[i]**2 + y[i]**2)**0.5)
+                    if (x[i]**2 + y[i]**2)**0.5 != 0:
+                        radius.append((x[i]**2 + y[i]**2)**0.5)
 
                 data = segmentation(radius, 0.01)
 
                 #graficos(data)
                 grafico_justos(data)
 
-#para mostrar os histogrmas juntos
+#para mostrar os histogramas juntos
 plt.show()
