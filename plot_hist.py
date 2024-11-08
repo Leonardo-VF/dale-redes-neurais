@@ -13,8 +13,9 @@ def grafico_justos(data):
     ax.plot(keys, values, label=f" p = {p} mu={mu}")
     plt.xlabel("Raio do plano complexo")
     plt.ylabel('Densidade de probabilidade $(\\frac{pontos_{local}}{pontos_{totais}*raio})$')
-    plt.xticks(np.arange(0, 2, 0.2))
-    plt.xlim(0, 2)
+    plt.xticks(np.arange(0, 1.3, 0.2))
+    plt.xlim(0, 1.3)
+    plt.grid(True)
     ax.set_facecolor('gainsboro')
     plt.title(f"Densidade de probabilidade ao longo do raio \n alpha = {alpha} ne = {ne} \n (autovalores 0.0 descartados para facilitar a vizualização)")
     plt.tight_layout() 
@@ -28,6 +29,7 @@ def graficos(data):
     
     plt.bar(keys, values, width=0.1)
     ax = plt.gca()
+    plt.grid(True)
     ax.set_facecolor('gainsboro')
     plt.xlabel('Raio do plano complexo')
     plt.ylabel('Densidade de pontos (n pontos/área)')
@@ -64,13 +66,13 @@ def segmentation(matrix, passo):
 for alpha in [10]:
     for ne in [800]:
         for mu in [5]:
-            for p in [x for x in range(2,10,2)]:
+            for p in [x/10 for x in range(2,11,2)]:
                 x = []
                 y = []
                 radius = []
 
                 # Ler os dados do arquivo
-                with open("barabasi/dados_p{}_alpha{}_Ne{}_mu{}.txt".format(p, alpha, ne, mu), "r") as arq:
+                with open("dados/dados_p{}_alpha{}_Ne{}_mu{}.txt".format(p, alpha, ne, mu), "r") as arq:
                     for line in arq:
                         parts = line.split()
                         x.append(float(parts[0]))

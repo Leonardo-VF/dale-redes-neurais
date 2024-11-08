@@ -63,10 +63,10 @@ def main():
 
     #loop para rodar todos os testes
     for i in range(30):
-        for mu_E in [5]:
+        for mu_E in [1, 3, 5, 7]:
             for Ne in [800]:
                 for alpha in [10]:
-                    for p in [x/10 for x in range(2,11,2)]:
+                    for p in [0.5]:
                         #matriz = BA(N, p)
                         matriz = ED(N, p)
                     

@@ -6,7 +6,7 @@ import os
 for ne in [800]:
     for mu in [5]:
         for alpha in [10]:
-            for p in [x for x in range(2,10,2)]:
+            for p in [x/10 for x in range(2,10,2)]:
                 x = []
                 y = []
 
