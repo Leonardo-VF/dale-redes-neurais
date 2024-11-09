@@ -1,5 +1,4 @@
 import networkx as nx
-import matplotlib.pyplot as plt
 import numpy as np
 from random import random
 
@@ -66,9 +65,9 @@ def main():
         for mu_E in [1, 3, 5, 7]:
             for Ne in [800]:
                 for alpha in [10]:
-                    for p in [0.5]:
-                        #matriz = BA(N, p)
-                        matriz = ED(N, p)
+                    for p in [5]:
+                        matriz = BA(N, p)
+                        #matriz = ED(N, p)
                     
                         #aplica a lei de dale na matriz
                         f = Ne / N
@@ -79,11 +78,11 @@ def main():
 
                         auto_val = np.linalg.eigvals(dale_matriz)
 
-                        with open(f"dados/dados_p{p}_alpha{alpha}_Ne{Ne}_mu{mu_E}.txt", "a") as arq:
+                        with open(f"barabasi/dados_p{p}_alpha{alpha}_Ne{Ne}_mu{mu_E}.txt", "a") as arq:
                             for data in auto_val:
                                 arq.write("{} {}\n".format(data.real, data.imag))
 
-            print(f"{i}/30")
+        print(f"{i}/30")
 
 if __name__ == "__main__":
     main()
