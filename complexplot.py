@@ -6,11 +6,11 @@ import os
 for ne in [800]:
     for mu in [5]:
         for alpha in [10]:
-            for p in [x/10 for x in range(2,10,2)]:
+            for p in [x for x in range(2,11,2)]:
                 x = []
                 y = []
 
-                with (open("dados/dados_p{}_alpha{}_Ne{}_mu{}.txt".format(p,alpha,ne,mu))) as arq:
+                with (open("barabasi/dados_p{}_alpha{}_Ne{}_mu{}.txt".format(p,alpha,ne,mu))) as arq:
                     for line in arq:
                         parts = line.split()
                         x.append(float(parts[0]))

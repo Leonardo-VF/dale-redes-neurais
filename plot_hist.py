@@ -12,15 +12,15 @@ def grafico_justos(data):
 
     ax.plot(keys, values, label=f" p = {p} mu={mu}")
     plt.xlabel("Raio do plano complexo")
-    plt.ylabel('Densidade de probabilidade $(\\frac{pontos_{local}}{pontos_{totais}*raio})$')
+    plt.ylabel('Densidade de probabilidade')
     plt.xticks(np.arange(0, 2, 0.2))
     plt.xlim(0, 2)
     plt.grid(True)
     ax.set_facecolor('gainsboro')
-    plt.title(f"Densidade de probabilidade ao longo do raio \n alpha = {alpha} ne = {ne} \n (autovalores 0.0 descartados para facilitar a vizualização)")
+    plt.title(f"Densidade de probabilidade ao longo do raio (rede BA) \n alpha = {alpha} ne = {ne} \n (autovalores 0.0 descartados para facilitar a vizualização)")
     plt.tight_layout() 
     plt.legend()
-    plt.savefig(f'plots/Variação de p com mu = 5')
+    plt.savefig(f'plots/Variação de mu com p = 5')
 
 def graficos(data):
     #função para criação de gráficos individuais das probabilidades
@@ -84,8 +84,8 @@ for alpha in [10]:
 
                 data = segmentation(radius, 0.01)
 
-                #graficos(data)
-                grafico_justos(data)
+                graficos(data)
+                #grafico_justos(data)
 
 #para mostrar os histogramas juntos
 plt.show()
