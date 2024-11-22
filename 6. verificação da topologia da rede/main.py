@@ -67,7 +67,7 @@ def main():
                 for alpha in [10]:
                     for p in [5]:
                         matriz = BA(N, p)
-                        #matriz = ED(N, p)
+                        #matriz = ED(N, p/10)
                     
                         #aplica a lei de dale na matriz
                         f = Ne / N
