@@ -32,7 +32,7 @@ N = 1000
 
 #loop para rodar todos os testes
 for i in range(30):
-    for mu_E in [3]:
+    for mu_E in [5]:
         for Ne in [800]:
             for alpha in [10]:
                 for p in [x/10 for x in range(1,11)]:
