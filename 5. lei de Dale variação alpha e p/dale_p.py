@@ -32,10 +32,10 @@ N = 1000
 
 #loop para rodar todos os testes
 for i in range(30):
-    for mu_E in [5]:
+    for mu_E in [x for x in range(1,6)]:
         for Ne in [800]:
             for alpha in [10]:
-                for p in [x/10 for x in range(1,11)]:
+                for p in [0.5]:
                     #aplica a lei de dale na matriz
                     f = Ne / N
                     se = (1 / (f + (1 - f) * alpha**2))**(1/2)

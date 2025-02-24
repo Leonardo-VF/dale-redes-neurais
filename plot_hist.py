@@ -10,9 +10,9 @@ def grafico_justos(data):
     keys = [float(x) for x in data.keys()]
     values = [float(x) for x in data.values()]
 
-    teste = savgol_filter(values, 20, 3)
+    teste = savgol_filter(values, 11, 3)
 
-    ax.plot(keys, teste, label=rf"p = {p}")
+    ax.plot(keys, teste, label=rf"$\mu$ = {mu}")
     plt.scatter(keys[0:int(-len(keys)/2)], values[0:int(-len(keys)/2)], marker='.')
     plt.xlabel("Raio do plano complexo")
     plt.ylabel('Densidade de probabilidade')
@@ -21,11 +21,11 @@ def grafico_justos(data):
     plt.grid(False)
     ax.set_facecolor('gainsboro')
     plt.title(f"Densidade de probabilidade ao longo do raio com \n "
-          fr"$\alpha$={alpha} Ne={ne} mu={mu}"
+          fr"$\alpha$={alpha} Ne={ne} p={p}"
           "\n (autovalores 0.0 descartados para facilitar a visualização)")
     plt.tight_layout() 
     plt.legend()
-    plt.savefig(f'Variação alpha com Ne={ne} e Mu={mu}')
+    plt.savefig(f'Variação mu com Ne={ne} e p=0,5')
 
 def graficos(data):
     #função para criação de gráficos individuais das probabilidades
@@ -89,8 +89,8 @@ def segmentation(lista, passo):
 
 for alpha in [10]:
     for ne in [800]:
-        for mu in [5]:
-            for p in [x/10 for x in range(1,10)]:
+        for mu in [x for x in range(1,6)]:
+            for p in [0.5]:
                 x = []
                 y = []
                 radius = []
@@ -107,7 +107,7 @@ for alpha in [10]:
                     if (x[i]**2 + y[i]**2)**0.5 != 0:
                         radius.append((x[i]**2 + y[i]**2)**0.5)
 
-                data = segmentation(radius, 0.2)
+                data = segmentation(radius, 0.1)
 
                 #graficos(data)
                 grafico_justos(data)
