@@ -4,13 +4,13 @@ import os
 
 
 for ne in [800]:
-    for mu in [5]:
+    for mu in [3]:
         for alpha in [10]:
-            for p in [x for x in range(2,11,2)]:
+            for p in [x/10 for x in range(1,11)]:
                 x = []
                 y = []
 
-                with (open("barabasi/dados_p{}_alpha{}_Ne{}_mu{}.txt".format(p,alpha,ne,mu))) as arq:
+                with (open("5. lei de Dale variação alpha e p/dados_p{}_alpha{}_Ne{}_mu{}.txt".format(p,alpha,ne,mu))) as arq:
                     for line in arq:
                         parts = line.split()
                         x.append(float(parts[0]))
@@ -25,17 +25,17 @@ for ne in [800]:
                 plt.plot(circulo_complexo.real, circulo_complexo.imag, color='black', label='Círculo')
                 plt.xlabel('Re')
                 plt.ylabel('Im')
-                plt.title("Alpha = {} Ne = {} mu = {}".format(alpha,ne,mu))
+                plt.title("Ne = {} Mu = {} Alpha = {}".format(ne,mu,alpha))
                 ax = plt.gca()
                 ax.set_facecolor('gainsboro')
                 plt.grid(True)
                 plt.axhline(0, color='black', linewidth=0.5)
                 plt.axvline(0, color='black', linewidth=0.5)
                 desktop_path = os.path.expanduser("~/Desktop")
-                file_path = os.path.join(desktop_path, "p{}_Ne{}_Mu{}".format(p, ne, mu))
+                file_path = os.path.join(desktop_path, "Ne{}_Mu{}_alpha{}".format(ne, mu, alpha))
                 #plt.xlim(-1.5, 1.5)  # Ajusta os limites do eixo x
                 #plt.ylim(-1.5, 1.5)
-                plt.savefig(f'plots/plot_p{p}_alpha{alpha}_Ne{ne}_mu{mu}.png')
+                plt.savefig(f'plot_Ne{ne}_mu{mu}_alpha{alpha}.png')
                 plt.show()
             
 

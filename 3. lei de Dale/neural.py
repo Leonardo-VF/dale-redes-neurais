@@ -2,7 +2,7 @@ import networkx as nx
 import numpy as np
 
 
-def dale(matriz, N, Ne, mu_E, si, se):
+def dale(N, Ne, mu_E, si, se):
     #obter os valores necessários
     f = Ne/N
     mu_I = -(f*mu_E/(1-f))/N**(1/2)
@@ -10,7 +10,7 @@ def dale(matriz, N, Ne, mu_E, si, se):
     se = se/N**(1/2)
     si = si/N**(1/2)
 
-    matriz = np.m
+    matriz = np.zeros((N,N))
 
     #sortear valores da distribuição gaussiana
     for j in range(Ne):
@@ -19,14 +19,16 @@ def dale(matriz, N, Ne, mu_E, si, se):
     for j in range(Ne, N):
         matriz[:, j] = np.random.normal(mu_I, si, N)
 
+    return matriz
+
 #número de nós da rede
-N = 3000
+N = 1000
 
 #loop para rodar todos os testes
-for Ne in [600, 1500, 2400]:
+for Ne in [100, 500, 800]:
     for mu_E in [3, 5]:  
         #aplica a lei de dale na matriz
-        matriz = dale(matriz, N, Ne, mu_E, 1, 1)
+        matriz = dale(N, Ne, mu_E, 1, 1)
 
         auto_val = np.linalg.eigvals(matriz)
 

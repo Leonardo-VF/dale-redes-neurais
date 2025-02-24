@@ -32,7 +32,7 @@ N = 1000
 
 #loop para rodar todos os testes
 for i in range(30):
-    for mu_E in [x for x in range(1,6)]:
+    for mu_E in [3]:
         for Ne in [800]:
             for alpha in [10]:
                 for p in [x/10 for x in range(1,11)]:
@@ -45,7 +45,7 @@ for i in range(30):
 
                     auto_val = np.linalg.eigvals(matriz)
 
-                    with open(f"dados/dados_p{p}_alpha{alpha}_Ne{Ne}_mu{mu_E}.txt", "a") as arq:
+                    with open(f"dados_p{p}_alpha{alpha}_Ne{Ne}_mu{mu_E}.txt", "a") as arq:
                         for data in auto_val:
                             arq.write("{} {}\n".format(data.real, data.imag))
 

@@ -39,3 +39,8 @@ for Ne in [100, 500, 800]:
             with open("dados_alpha{}_Ne{}_mu{}.txt".format(alpha, str(Ne), mu_E), "w") as arq:
                 for data in auto_val:
                     arq.write("{} {}\n".format(data.real, data.imag))
+
+
+
+
+
