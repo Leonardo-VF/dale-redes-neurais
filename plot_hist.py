@@ -10,22 +10,22 @@ def grafico_justos(data):
     keys = [float(x) for x in data.keys()]
     values = [float(x) for x in data.values()]
 
-    teste = savgol_filter(values, 11, 3)
+    teste = savgol_filter(values, 13, 3)
 
-    ax.plot(keys, teste, label=rf"$\mu$ = {mu}")
+    ax.plot(keys, teste, label=rf"$\alpha$ = {alpha}")
     plt.scatter(keys[0:int(-len(keys)/2)], values[0:int(-len(keys)/2)], marker='.')
     plt.xlabel("Raio do plano complexo")
     plt.ylabel('Densidade de probabilidade')
-    plt.xticks(np.arange(0, max(keys)-3, 0.5))
-    plt.xlim(0, max(keys)-3)
+    plt.xticks(np.arange(0, max(keys)-1, 0.25))
+    plt.xlim(0, max(keys)-1)
     plt.grid(False)
     ax.set_facecolor('gainsboro')
     plt.title(f"Densidade de probabilidade ao longo do raio com \n "
-          fr"$\alpha$={alpha} Ne={ne} p={p}"
+          fr"Ne={ne} $\mu_e$={mu}"
           "\n (autovalores 0.0 descartados para facilitar a visualização)")
     plt.tight_layout() 
     plt.legend()
-    plt.savefig(f'Variação mu com Ne={ne} e p=0,5')
+    plt.savefig(f'Variação alpha com Ne={ne} e mu={mu}')
 
 def graficos(data):
     #função para criação de gráficos individuais das probabilidades
@@ -87,16 +87,16 @@ def segmentation(lista, passo):
     
     return contagem
 
-for alpha in [10]:
-    for ne in [800]:
-        for mu in [x for x in range(1,6)]:
-            for p in [0.5]:
+for alpha in [0.1,1,10]:
+    for ne in [500]:
+        for mu in [3]:
+            #for p in [x/10 for x in range(1,10)]:
                 x = []
                 y = []
                 radius = []
 
                 # Ler os dados do arquivo
-                with open("5. lei de Dale variação alpha e p/dados_p{}_alpha{}_Ne{}_mu{}.txt".format(p,alpha,ne,mu), "r") as arq:
+                with open("4. lei de Dale variação alpha/dados_alpha{}_Ne{}_mu{}.txt".format(alpha,ne,mu), "r") as arq:
                     for line in arq:
                         parts = line.split()
                         x.append(float(parts[0]))
@@ -107,7 +107,7 @@ for alpha in [10]:
                     if (x[i]**2 + y[i]**2)**0.5 != 0:
                         radius.append((x[i]**2 + y[i]**2)**0.5)
 
-                data = segmentation(radius, 0.1)
+                data = segmentation(radius, 0.05)
 
                 #graficos(data)
                 grafico_justos(data)
