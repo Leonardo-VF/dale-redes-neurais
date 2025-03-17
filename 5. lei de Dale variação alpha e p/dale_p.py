@@ -35,11 +35,12 @@ for i in range(30):
     for mu_E in [x for x in range(1,6)]:
         for Ne in [800]:
             for alpha in [10]:
-                for p in [0.5]:
+                for p in [1]:
                     #aplica a lei de dale na matriz
                     f = Ne / N
                     se = (1 / (f + (1 - f) * alpha**2))**(1/2)
                     si = alpha * se
+                    print(se, si)
 
                     matriz = dale(N, Ne, mu_E, si, se, p)
 

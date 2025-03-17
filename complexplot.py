@@ -3,14 +3,14 @@ import numpy as np
 import os
 
 
-for ne in [800]:
-    for mu in [3]:
-        for alpha in [10]:
-            for p in [x/10 for x in range(1,11)]:
+for ne in [100]:
+    for mu in [5]:
+        for alpha in [0.1,1,10]:
+            #for p in [x/10 for x in range(1,11)]:
                 x = []
                 y = []
 
-                with (open("5. lei de Dale variação alpha e p/dados_p{}_alpha{}_Ne{}_mu{}.txt".format(p,alpha,ne,mu))) as arq:
+                with (open("4. lei de Dale variação alpha/dados_alpha{}_Ne{}_mu{}.txt".format(alpha,ne,mu))) as arq:
                     for line in arq:
                         parts = line.split()
                         x.append(float(parts[0]))

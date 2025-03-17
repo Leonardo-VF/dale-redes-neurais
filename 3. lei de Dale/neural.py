@@ -10,6 +10,8 @@ def dale(N, Ne, mu_E, si, se):
     se = se/N**(1/2)
     si = si/N**(1/2)
 
+    print(f, mu_E, mu_I)
+
     matriz = np.zeros((N,N))
 
     #sortear valores da distribuição gaussiana

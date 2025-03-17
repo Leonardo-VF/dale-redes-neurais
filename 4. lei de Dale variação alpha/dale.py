@@ -24,21 +24,24 @@ def dale(N, Ne, mu_E, si, se):
 N = 1000
 
 #loop para rodar todos os testes
-for Ne in [100, 500, 800]:
-    for mu_E in [3, 5]:
-        for alpha in [0.1, 1, 10]:
-            #aplica a lei de dale na matriz
-            f = Ne / N
-            se = (1 / (f + (1 - f) * alpha**2))**(1/2)
-            si = alpha * se
+for i in range(30):
+    for Ne in [100, 500, 800]:
+        for mu_E in [3, 5]:
+            for alpha in [0.1, 1, 10]:
+                #aplica a lei de dale na matriz
+                f = Ne / N
+                se = (1 / (f + (1 - f) * alpha**2))**(1/2)
+                si = alpha * se
 
-            matriz = dale(N, Ne, mu_E, si, se)
+                matriz = dale(N, Ne, mu_E, si, se)
 
-            auto_val = np.linalg.eigvals(matriz)
+                auto_val = np.linalg.eigvals(matriz)
 
-            with open("dados_alpha{}_Ne{}_mu{}.txt".format(alpha, str(Ne), mu_E), "w") as arq:
-                for data in auto_val:
-                    arq.write("{} {}\n".format(data.real, data.imag))
+                with open("4. lei de Dale variação alpha/dados_alpha{}_Ne{}_mu{}.txt".format(alpha, str(Ne), mu_E), "a") as arq:
+                    for data in auto_val:
+                        arq.write("{} {}\n".format(data.real, data.imag))
+    
+    print(f"{i}/30")
 
 
 
