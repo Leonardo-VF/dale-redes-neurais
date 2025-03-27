@@ -13,9 +13,9 @@ def grafico_justos(data):
     values = [float(x) for x in data.values()][1:-1]
 
     window_length = min(15, len(values) - 1 if len(values) % 2 == 0 else len(values))
-    teste = savgol_filter(values, 35, 3)
+    teste = savgol_filter(values, 25, 3)
 
-    ax.plot(keys, teste, label=rf"$\alpha$ = {alpha}")
+    ax.plot(keys, teste, label=rf"$\mu_e$ = {mu}")
     plt.scatter(keys[0:int(-len(keys)/2)], values[0:int(-len(keys)/2)], marker='.')
     plt.xlabel("Raio do plano complexo")
     plt.ylabel('Densidade de probabilidade')
@@ -23,11 +23,11 @@ def grafico_justos(data):
     plt.xlim(0, 1.25)
     plt.grid(False)
     ax.set_facecolor('gainsboro')
-    plt.title(f"Densidade de probabilidade ao longo do raio com \n "
+    plt.title(f"Densidade de probabilidade ao longo do raio em um rede BA com \n "
           fr"Ne={ne} $\mu_e$={mu} $\sigma_E$={round(se,2)}")
     plt.tight_layout() 
     plt.legend()
-    plt.savefig(f'Variação alpha com Ne={ne} e Mu={mu}')
+    plt.savefig(f'Variação mu com Ne={ne} e p={p}.png')
 
 def graficos(data):
     #função para criação de gráficos individuais das probabilidades
@@ -59,7 +59,7 @@ def segmentation(lista):
     #segmenta o raio do plano complexo para fazer a contagem de potnos
     #intervalos = np.arange(0, max(lista)+1, passo)
 
-    intervalos = calcular_aneis(max(lista), 50000)
+    intervalos = calcular_aneis(max(lista), 250000)
     contagem = {'{:.2f}'.format(intervalos[i+1]): 0 for i in range(len(intervalos)-1)}
 
     # Contar os pontos em cada intervalo  
@@ -78,10 +78,10 @@ def segmentation(lista):
     
     return contagem
 
-for alpha in [0.1,1,10]:
+for alpha in [10]:
     for ne in [800]:
-        for mu in [5]:
-            #for p in [0.5]:
+        for mu in [1,3,5,7]:
+            for p in [0.5]:
                 x = []
                 y = []
                 radius = []
@@ -91,7 +91,7 @@ for alpha in [0.1,1,10]:
                 si = alpha * se
 
                 # Ler os dados do arquivo
-                with open("4. lei de Dale variação alpha/dados_alpha{}_Ne{}_mu{}.txt".format(alpha,ne,mu), "r") as arq:
+                with open("6. verificação da topologia da rede/dados BA/dados_p{}_alpha{}_Ne{}_mu{}.txt".format(p,alpha,ne,mu), "r") as arq:
                     for line in arq:
                         parts = line.split()
                         x.append(float(parts[0]))

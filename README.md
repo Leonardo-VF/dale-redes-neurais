@@ -8,5 +8,5 @@ Pastas:
 5. Aplicação da lei de Dale em uma matriz criada com variação alpha e p
 6. Aplicação da lei de Dale em uma rede BA ou ED criada no networkx
 
-complexplot.py: programa para plotar os resultados em um plano complexo de raio 1
+complexplot.py: programa para plotar os resultados em um plano complexo
 plot_hist.py: programa para plotar os resultados na forma de histograma para comparar com outros teste
