@@ -1,58 +1,27 @@
-import networkx as nx
 import numpy as np
-from random import random
+import Sparse_Matrix
+from tqdm import tqdm
 
 
-def BA(n, p):
-    barabasi = nx.barabasi_albert_graph(n, p)
-
-    graph = nx.to_directed(barabasi)
-    graph = graph.copy()
-
-    for u, v in list(graph.edges()):
-        if graph.has_edge(u, v) and graph.has_edge(v, u):
-            if random() < 0.5:
-                graph.remove_edge(u, v)
-            else:
-                graph.remove_edge(v, u)
-
-    return nx.to_numpy_array(graph)
-
-
-def ED(n, p):
-    erdos = nx.erdos_renyi_graph(n, p)
-
-    graph = nx.to_directed(erdos)
-    graph = graph.copy()
-
-    for u, v in list(graph.edges()):
-        if graph.has_edge(u, v) and graph.has_edge(v, u):
-            if random() < 0.5:
-                graph.remove_edge(u, v)
-            else:
-                graph.remove_edge(v, u)
-
-    return nx.to_numpy_array(graph)
-
-def dale(matriz, Ne, mu_E, si, se, p):
+def dale(matriz, Ne, muE, sigmaI, sigmaE):
     #obter os valores necessários
     N = len(matriz)
     f = Ne/N
-    mu_I = -(f*mu_E/(1-f))/N**(1/2)
-    mu_E = mu_E/N**(1/2)
-    se = se/N**(1/2)
-    si = si/N**(1/2)
+    muI = -(f*muE/(1-f))/N**(1/2)
+    muE = muE/N**(1/2)
+    sigmaE = sigmaE/N**(1/2)
+    sigmaI = sigmaI/N**(1/2)
 
     #sortear valores da distribuição gaussiana
     for i in range(N):
         for j in range(Ne):
             if matriz[i,j] != 0:
-                matriz[:, j] = np.random.normal(mu_E, se, N)
+                matriz[:, j] = np.random.normal(muE, sigmaE, N)
 
     for i in range(N):
         for j in range(Ne, N):
             if matriz[i,j] != 0:
-                matriz[:, j] = np.random.normal(mu_I, si, N)
+                matriz[:, j] = np.random.normal(muI, sigmaI, N)
 
     return matriz
 
@@ -61,28 +30,28 @@ def main():
     N = 1000
 
     #loop para rodar todos os testes
-    for i in range(30):
-        for mu_E in [5]:
-            for Ne in [800]:
-                for alpha in [10]:
-                    for p in [x for x in range(1,11)]:
-                        matriz = BA(N, p)
-                        #matriz = ED(N, p/10)
+    for _ in tqdm(range(30)):
+        for muE in [1,3,5,7]:
+            for Ne in [100,500,800]:
+                for alpha in [0.1,1,10]:
+                    for gamma in [2.5,3]:
+                        k0 = 2
                     
                         #aplica a lei de dale na matriz
                         f = Ne / N
-                        se = (1 / (f + (1 - f) * alpha**2))**(1/2)
-                        si = alpha * se
+                        sigmaE = (1 / (f + (1 - f) * alpha**2))**(1/2)
+                        sigmaI = alpha * sigmaE
+                        muI = -(f*muE/(1-f))/N**(1/2)
 
-                        dale_matriz = dale(matriz, Ne, mu_E, si, se, p)
+                        #dale_matriz = dale(matriz, Ne, muE, sigmaI, sigmaE)
+                        matriz = Sparse_Matrix.generate_heterogeneous(N, gamma, k0, Ne, muE, sigmaE, muI, sigmaI, outdegree=True)
 
-                        auto_val = np.linalg.eigvals(dale_matriz)
+                        auto_val = np.linalg.eigvals(matriz)
 
-                        with open(f"dados_p{p/10}_alpha{alpha}_Ne{Ne}_mu{mu_E}.txt", "a") as arq:
+                        with open(f"6. verificação da topologia da rede/dados/dados_gamma{gamma}_alpha{alpha}_Ne{Ne}_mu{muE}.txt", "a") as arq:
                             for data in auto_val:
                                 arq.write("{} {}\n".format(data.real, data.imag))
 
-        print(f"{i}/30")
 
 if __name__ == "__main__":
     main()
