@@ -12,21 +12,24 @@ def grafico_justos(data):
     keys = [float(x) for x in data.keys()][1:]
     values = [float(x) for x in data.values()][1:]
 
-    teste = savgol_filter(values, 11, 3)
+    maior = max((float(k) for k, v in data.items() if v != 0), default=None)
+
+
+    teste = savgol_filter(values, 15, 3)
 
     ax.plot(keys, teste, label=rf"$\gamma$ = {gamma}")
     plt.scatter(keys[:100], values[:100], marker='.')
     plt.xlabel("Raio do plano complexo")
     plt.ylabel('Densidade de probabilidade')
-    plt.xticks(np.arange(0, max(keys)+0.1, 0.1))
-    plt.xlim(0, max(keys)+0.1)
+    plt.xticks(np.arange(0, maior/2, 0.1))
+    plt.xlim(0, maior/2)
     plt.grid(False)
     ax.set_facecolor('gainsboro')
-    plt.title(f"Densidade de probabilidade ao longo do raio em um rede BA com \n "
-          fr"Ne={ne} $\mu_e$={mu} $\sigma_E$={round(se,2)}")
+    plt.title(f"Densidade de probabilidade ao longo do raio\n "
+          fr"Ne={ne} $\mu_e = {mu}$ $\sigma_E$={round(se,2)}")
     plt.tight_layout() 
     plt.legend()
-    plt.savefig(f'Variação mu com Ne={ne} e mu={mu}.png')
+    plt.savefig(f'Variação gamma com mu = {mu} e Ne={ne}.png')
 
 def graficos(data):
     #função para criação de gráficos individuais das probabilidades
@@ -56,31 +59,36 @@ def calcular_aneis(R, N):
 def segmentation(lista):
     #segmenta o raio do plano complexo para fazer a contagem de potnos
 
-    intervalos = calcular_aneis(max(lista), 1000)
+    intervalos = calcular_aneis(2*max(lista), 50000)
 
-    for i in range(1,len(intervalos)):
-        area = (math.pi * (intervalos[i]**2 - intervalos[i-1]**2))
-
-    contagem = {'{:.2f}'.format(intervalos[i+1]): 0 for i in range(len(intervalos)-1)}
+    contagem = {'{:.3f}'.format(intervalos[i+1]): 0 for i in range(len(intervalos)-1)}
 
     # Contar os pontos em cada intervalo  
     for num in lista:
         for i in range(1, len(intervalos)):
             if intervalos[i-1] <= num < intervalos[i]:
-                contagem['{:.2f}'.format(intervalos[i])] += 1
+            #if intervalos[i-1] <= num < intervalos[i]:
+                contagem['{:.3f}'.format(intervalos[i])] += 1
                 break
 
     total = sum(contagem.values())
 
     # Calcular a densidade de probabilidade dos pontos por área
     for i in contagem.keys():
-        contagem[i] = float(contagem[i])/(total)
+        contagem[i] = float(contagem[i])/(total*float(i))
+
+    norm = sum(contagem.values())
+
+    for i in contagem.keys():
+        contagem[i] = float(contagem[i])/norm
+
+    print(sum(contagem.values()))
     
     return contagem
 
-for alpha in [10]:
-    for ne in [800]:
-        for mu in [3]:
+for alpha in [1]:
+    for ne in [500]:
+        for mu in [5]:
             for gamma in [2.5,3]:
                 x = []
                 y = []
