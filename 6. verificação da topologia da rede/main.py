@@ -35,23 +35,23 @@ def main():
             for Ne in [100,500,800]:
                 for alpha in [0.1,1,10]:
                     for gamma in [2.5,3]:
-                        k0 = 2
-                    
-                        #aplica a lei de dale na matriz
-                        f = Ne / N
-                        sigmaE = (1 / (f + (1 - f) * alpha**2))**(1/2)
-                        sigmaI = alpha * sigmaE
-                        muI = -(f*muE/(1-f))/N**(1/2)
+                        for entry in [True, False]:
+                            k0 = 2
+                        
+                            #aplica a lei de dale na matriz
+                            f = Ne / N
+                            sigmaE = (1 / (f + (1 - f) * alpha**2))**(1/2)
+                            sigmaI = alpha * sigmaE
+                            muI = -(f*muE/(1-f))/N**(1/2)
 
-                        #dale_matriz = dale(matriz, Ne, muE, sigmaI, sigmaE)
-                        matriz = Sparse_Matrix.generate_heterogeneous(N, gamma, k0, Ne, muE, sigmaE, muI, sigmaI, outdegree=True)
+                            #dale_matriz = dale(matriz, Ne, muE, sigmaI, sigmaE)
+                            matriz = Sparse_Matrix.generate_heterogeneous(N, gamma, k0, Ne, muE, sigmaE, muI, sigmaI, outdegree=entry)
 
-                        auto_val = np.linalg.eigvals(matriz)
+                            auto_val = np.linalg.eigvals(matriz)
 
-                        with open(f"6. verificação da topologia da rede/dados/dados_gamma{gamma}_alpha{alpha}_Ne{Ne}_mu{muE}.txt", "a") as arq:
-                            for data in auto_val:
-                                arq.write("{} {}\n".format(data.real, data.imag))
-
+                            with open(f"6. verificação da topologia da rede/dados/dados_gamma{gamma}_alpha{alpha}_Ne{Ne}_mu{muE}_entry{entry}.txt", "a") as arq:
+                                for data in auto_val:
+                                    arq.write("{} {}\n".format(data.real, data.imag))
 
 if __name__ == "__main__":
     main()

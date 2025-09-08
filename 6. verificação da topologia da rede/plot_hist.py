@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.lines import Line2D
 from scipy.signal import savgol_filter
 import math
 
@@ -14,22 +15,49 @@ def grafico_justos(data):
 
     maior = max((float(k) for k, v in data.items() if v != 0), default=None)
 
+    teste = savgol_filter(values, 7, 3)
 
-    teste = savgol_filter(values, 15, 3)
+    cores_por_gamma = {
+    3: 'steelblue',
+    5: 'darkorange',
+    7: 'forestgreen',
+    }
+    
+    cor = cores_por_gamma[mu]
 
-    ax.plot(keys, teste, label=rf"$\gamma$ = {gamma}")
-    plt.scatter(keys[:100], values[:100], marker='.')
+    if entry:
+        ax.plot(keys, teste, label=rf"$\mu_e$ = {mu}", color=cor)
+    else:
+        ax.plot(keys, teste, linestyle='--', color=cor)
+
+    plt.scatter(keys[:200:10], values[:200:10], marker='.', color=cor)
     plt.xlabel("Raio do plano complexo")
     plt.ylabel('Densidade de probabilidade')
     plt.xticks(np.arange(0, maior/2, 0.1))
     plt.xlim(0, maior/2)
     plt.grid(False)
     ax.set_facecolor('gainsboro')
+
+
+    explicacao_linhas = [
+        Line2D([0], [0], color='black', linestyle='-', label='entry = True'),
+        Line2D([0], [0], color='black', linestyle='--', label='entry = False')
+    ]
+
+    legend2 = ax.legend(
+        handles=explicacao_linhas,
+        title="Estilo da linha",
+        loc='center right',
+        bbox_to_anchor=(1, 0.6)      
+    )
+
+    ax.add_artist(legend2)  # mantém a primeira legenda
+
     plt.title(f"Densidade de probabilidade ao longo do raio\n "
           fr"Ne={ne} $\mu_e = {mu}$ $\sigma_E$={round(se,2)}")
     plt.tight_layout() 
     plt.legend()
-    plt.savefig(f'Variação gamma com mu = {mu} e Ne={ne}.png')
+    plt.savefig(f'Variação da mu com gamma = {gamma} e Ne={ne}.png')
 
 def graficos(data):
     #função para criação de gráficos individuais das probabilidades
@@ -86,33 +114,34 @@ def segmentation(lista):
     
     return contagem
 
-for alpha in [1]:
-    for ne in [500]:
-        for mu in [5]:
-            for gamma in [2.5,3]:
-                x = []
-                y = []
-                radius = []
+for alpha in [10]:
+    for ne in [100]:
+        for mu in [3,5,7]:
+            for gamma in [3]:
+                for entry in [True, False]:
+                    x = []
+                    y = []
+                    radius = []
 
-                f = ne / 1000
-                se = (1 / (f + (1 - f) * alpha**2))**(1/2)
-                si = alpha * se
+                    f = ne / 1000
+                    se = (1 / (f + (1 - f) * alpha**2))**(1/2)
+                    si = alpha * se
 
-                # Ler os dados do arquivo
-                with open("6. verificação da topologia da rede/dados/dados_gamma{}_alpha{}_Ne{}_mu{}.txt".format(gamma,alpha,ne,mu), "r") as arq:
-                    for line in arq:
-                        parts = line.split()
-                        x.append(float(parts[0]))
-                        y.append(float(parts[1]))
+                    # Ler os dados do arquivo
+                    with open("6. verificação da topologia da rede/dados/dados_gamma{}_alpha{}_Ne{}_mu{}_entry{}.txt".format(gamma,alpha,ne,mu,entry), "r") as arq:
+                        for line in arq:
+                            parts = line.split()
+                            x.append(float(parts[0]))
+                            y.append(float(parts[1]))
 
-                # Calcular as áreas correspondentes aos pontos
-                for i in range(len(x)):
-                    radius.append((x[i]**2 + y[i]**2)**0.5)
-                
-                data = segmentation(radius)
+                    # Calcular as áreas correspondentes aos pontos
+                    for i in range(len(x)):
+                        radius.append((x[i]**2 + y[i]**2)**0.5)
+                    
+                    data = segmentation(radius)
 
-                #graficos(data)
-                grafico_justos(data)
+                    #graficos(data)
+                    grafico_justos(data)
 
 #para mostrar os histogramas juntos
 plt.show()

@@ -6,7 +6,7 @@ import os
 for ne in [100]:
     for mu in [5]:
         for alpha in [10]:
-            for gamma in [2.5,3]:
+            for gamma in [3]:
                 x = []
                 y = []
 
